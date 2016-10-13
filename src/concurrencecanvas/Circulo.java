@@ -98,7 +98,7 @@ public class Circulo extends Thread {
     public void run() {
         for (int i = 0; i < 50; i++) {
             try {
-                setCordenadaX((getCordenadaX() + 50));
+                this.cordenadaX +=20;
                 Thread.sleep(2000);
                 repintarCirculo();
                 getPanel().repaint();
