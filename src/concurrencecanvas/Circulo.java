@@ -6,6 +6,7 @@
 package concurrencecanvas;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -14,20 +15,22 @@ import javax.swing.JPanel;
  *
  * @author Erik
  */
-public class Circulo implements Runnable {
+public class Circulo extends Thread {
 
     private int radio;
     private Color color;
     private int cordenadaX;
     private int cordenadaY;
     private JPanel panel;
+    private Graphics graphics;
 
-    public Circulo(int radio, Color color, int cordenadaX, int cordenadaY, JPanel panel) {
+    public Circulo(int radio, Color color, int cordenadaX, int cordenadaY, JPanel panel, Graphics graphics) {
         this.radio = radio;
         this.color = color;
         this.cordenadaX = cordenadaX;
         this.cordenadaY = cordenadaY;
         this.panel = panel;
+        this.graphics = graphics;
     }
 
     public int getRadio() {
@@ -70,14 +73,36 @@ public class Circulo implements Runnable {
         this.panel = panel;
     }
 
-    @Override
-    public void run() {
-        try {
-            cordenadaX = +10;
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Graphics getGraphics() {
+        return graphics;
     }
 
+    public void setGraphics(Graphics graphics) {
+        this.graphics = graphics;
+    }
+
+    public void repintarCirculo() {
+        
+        getGraphics().setColor(getColor());
+        getGraphics().fillOval(getCordenadaX(),
+                getCordenadaY(),
+                getRadio(),
+                getRadio()
+        );
+        System.out.println("repintando : "+getCordenadaX());
+
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 50; i++) {
+            try {
+                setCordenadaX((getCordenadaX() + 50));
+                Thread.sleep(2000);
+                repintarCirculo();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

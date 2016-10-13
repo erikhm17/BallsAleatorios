@@ -37,21 +37,34 @@ public class Lienzo extends javax.swing.JPanel {
         /* tamaño del fondo*/
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        /* color del objeto*/
-        g.setColor(Color.red);
-        /* contenido del objeto*/
-        g.fillOval(10, 10, 30, 30);
-
-        ArrayList<Circulo> circulos = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Circulo c = new Circulo(10, Color.blue, i * 10, 50, this);
-            circulos.add(c);
-        }
-        for (Circulo c : circulos) {
-            g.setColor(c.getColor());
-            g.fillOval(c.getCordenadaX(), c.getCordenadaY(), c.getRadio(), c.getRadio());
-        }
-
+        Circulo c = new Circulo(30, Color.blue, 10, 50, this,g);
+        c.repintarCirculo();
+        
+        
+//        /* poniendo circulos*/
+//        ArrayList<Circulo> circulos = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            Circulo c = new Circulo(10, Color.blue, i * 10, 50, this);
+//            circulos.add(c);
+//        }
+//        for (Circulo c : circulos) {
+//            g.setColor(c.getColor());
+//            g.fillOval(
+//                    c.getCordenadaX(),
+//                    c.getCordenadaY(),
+//                    c.getRadio(),
+//                    c.getRadio()
+//            );
+//        }
+//        
+//        /*repintar un objeto*/
+//        circulos.get(2).setColor(Color.yellow);
+//        g.setColor(circulos.get(2).getColor());
+//        g.fillOval(circulos.get(2).getCordenadaX(),
+//                circulos.get(2).getCordenadaY(),
+//                circulos.get(2).getRadio(),circulos.get(2).getRadio());
+//        
+//        
     }
 
     @SuppressWarnings("unchecked")
