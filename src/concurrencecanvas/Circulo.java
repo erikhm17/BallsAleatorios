@@ -89,6 +89,7 @@ public class Circulo extends Thread {
                 getRadio(),
                 getRadio()
         );
+        
         System.out.println("repintando : "+getCordenadaX());
 
     }
@@ -100,6 +101,8 @@ public class Circulo extends Thread {
                 setCordenadaX((getCordenadaX() + 50));
                 Thread.sleep(2000);
                 repintarCirculo();
+                getPanel().repaint();
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -39,7 +39,7 @@ public class Lienzo extends javax.swing.JPanel {
 
         Circulo c = new Circulo(30, Color.blue, 10, 50, this,g);
         c.repintarCirculo();
-        
+        c.start();
         
 //        /* poniendo circulos*/
 //        ArrayList<Circulo> circulos = new ArrayList<>();
