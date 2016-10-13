@@ -23,12 +23,13 @@ public class Circulo implements Runnable {
     private int getWith;
     private JPanel panel;
 
-    public Circulo(int radio, Color color, int x, int y, JPanel panel) {
+    public Circulo(int radio, Color color, int x, int y, JPanel panel,int getWith) {
         this.radio = radio;
         this.color = color;
         this.x = x;
         this.y = y;
         this.panel = panel;
+        this.getWith = getWith;
     }
 
     public int getRadio() {

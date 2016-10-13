@@ -12,14 +12,13 @@ import java.awt.Graphics;
  *
  * @author Erik
  */
-public class Lienzo extends javax.swing.JPanel implements Runnable {
+public class Lienzo extends javax.swing.JPanel {
 
     int x = getWidth() / 2;
-    Thread hilo;
+    int getWidth = getWidth();
+    
     public Lienzo() {
         initComponents();
-        /* lo inicializamos al crear nuestro lienzo*/
-        hilo = new Thread(this); 
     }
 
     @Override
@@ -30,15 +29,7 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
         g.fillOval(x, getHeight() / 2, 30, 30);
 
     }
-    public void inicio(){
-        hilo.start();
-    }
-    public void pausa(){
-        hilo.suspend();
-    }
-    public void continuar(){
-        hilo.resume();
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,28 +47,6 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                while (x < getWidth() - 30) {
-                    Thread.sleep(50);
-                    x += 10;
-                    repaint();
-                }
-                while (x > 10) {
-                    Thread.sleep(50);
-                    x -= 10;
-                    repaint();
-                }
-
-            }
-        } catch (Exception e) {
-            System.out.println("ocurrio un error");
-        }
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
