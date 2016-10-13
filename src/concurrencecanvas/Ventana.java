@@ -18,8 +18,8 @@ public class Ventana extends javax.swing.JFrame {
      */
     public Ventana() {
         initComponents();
-        
-        Lienzo l = new Lienzo();
+        Lienzo l = new Lienzo(this);
+        l.repaint();
         l.setVisible(true);
         add(l);
     }
@@ -136,8 +136,4 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton btnPausar;
     // End of variables declaration//GEN-END:variables
 
-    public void setLienzo() {
-        
-        
-    }
 }

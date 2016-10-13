@@ -18,18 +18,16 @@ public class Circulo implements Runnable {
 
     private int radio;
     private Color color;
-    private int x;
-    private int y;
-    private int getWith;
+    private int cordenadaX;
+    private int cordenadaY;
     private JPanel panel;
 
-    public Circulo(int radio, Color color, int x, int y, JPanel panel,int getWith) {
+    public Circulo(int radio, Color color, int cordenadaX, int cordenadaY, JPanel panel) {
         this.radio = radio;
         this.color = color;
-        this.x = x;
-        this.y = y;
+        this.cordenadaX = cordenadaX;
+        this.cordenadaY = cordenadaY;
         this.panel = panel;
-        this.getWith = getWith;
     }
 
     public int getRadio() {
@@ -48,36 +46,20 @@ public class Circulo implements Runnable {
         this.color = color;
     }
 
-    public int getX() {
-        return x;
+    public int getCordenadaX() {
+        return cordenadaX;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setCordenadaX(int cordenadaX) {
+        this.cordenadaX = cordenadaX;
     }
 
-    public int getY() {
-        return y;
+    public int getCordenadaY() {
+        return cordenadaY;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getPanelAncho() {
-        return getWith;
-    }
-
-    public void setPanelAncho(int panelAncho) {
-        this.getWith = panelAncho;
-    }
-
-    public int getPanelAlto() {
-        return getWith;
-    }
-
-    public void setPanelAlto(int getWith) {
-        this.getWith = getWith;
+    public void setCordenadaY(int cordenadaY) {
+        this.cordenadaY = cordenadaY;
     }
 
     public JPanel getPanel() {
@@ -88,28 +70,13 @@ public class Circulo implements Runnable {
         this.panel = panel;
     }
 
-    public void repintarCirculo() {
-        this.panel.repaint();
-    }
-
     @Override
     public void run() {
-        while (true) {
-            try {
-                while (x < getWith - 30) {
-                    Thread.sleep(50);
-                    x += 10;
-                    repintarCirculo();
-                }
-                while (x > 10) {
-                    Thread.sleep(50);
-                    x -= 10;
-                    repintarCirculo();
-                }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+        try {
+            cordenadaX = +10;
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
