@@ -64,6 +64,7 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
 
     @Override
     public void run() {
+        
         while (true) {
             try {
 
