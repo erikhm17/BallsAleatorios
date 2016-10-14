@@ -19,18 +19,17 @@ public final class Circulo extends Thread {
 
     private Color color = Color.BLUE;
     /* default*/
-    private int cordenadaX = 10;
-    private int cordenadaY = 10;
+    private int coordenadaX;
+    private int coordenadaY;
     private JPanel panel;
     private Graphics graphics;
 
-    public Circulo(JPanel panel, Graphics graphics) {
-
-//        this.cordenadaX = cordenadaX;
-//        this.cordenadaY = cordenadaY;
+    public Circulo(JPanel panel, Graphics graphics, int coordenadaX, int coordenadaY) {
         this.panel = panel;
         this.graphics = graphics;
-
+        this.coordenadaX = coordenadaX;
+        this.coordenadaY = coordenadaY;
+        System.out.println("solo una vez");
     }
 
     public Color getColor() {
@@ -43,20 +42,20 @@ public final class Circulo extends Thread {
     }
 
     public int getCordenadaX() {
-        return cordenadaX;
+        return coordenadaX;
     }
 
     public void setCordenadaX(int cordenadaX) {
-        this.cordenadaX = cordenadaX;
+        this.coordenadaX = cordenadaX;
 
     }
 
     public int getCordenadaY() {
-        return cordenadaY;
+        return coordenadaY;
     }
 
     public void setCordenadaY(int cordenadaY) {
-        this.cordenadaY = cordenadaY;
+        this.coordenadaY = cordenadaY;
 
     }
 
@@ -80,8 +79,8 @@ public final class Circulo extends Thread {
         getGraphics().setColor(getColor());
         getGraphics().fillOval(getCordenadaX(),
                 getCordenadaY(),
-                20, /* medidas x default*/
-                20
+                10, /* medidas x default*/
+                10
         );
 
         //System.out.println("repintando : " + getCordenadaX() +" color : "+getColor());
@@ -89,11 +88,15 @@ public final class Circulo extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 50; i++) {
+        while (true) {
             try {
-                setColor(Color.ORANGE);
-                Circulo.sleep(2000);
-                repintarCirculo();
+                Circulo.sleep(1000);
+                if (coordenadaX >= 900) {
+                    coordenadaX = coordenadaX - 10;
+                } else {
+                    coordenadaX = coordenadaX + 10;
+                }
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
             }

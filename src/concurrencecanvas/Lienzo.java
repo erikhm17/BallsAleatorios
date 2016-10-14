@@ -3,6 +3,7 @@ package concurrencecanvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -13,18 +14,19 @@ import javax.swing.JFrame;
  */
 public class Lienzo extends javax.swing.JPanel implements Runnable {
 
-    Color color = Color.BLUE;
-    int coordenadaX = 50;
-    int coordenadaY = 50;
+    ArrayList<Circulo> arrayCirculo = new ArrayList<>();
 
     public Lienzo(JFrame frame) {
         initComponents();
         this.setSize(new Dimension(
-                frame.getWidth(),
-                frame.getHeight())
+                1000,
+                600)
         );
         System.out.println("Lienzo solo una vez");
-
+        /* llenando los objetos a una arreglo de circulos*/
+        for (int i = 0; i < 1; i++) {
+            arrayCirculo.add(new Circulo(this, null,i*40,i*40));
+        }
     }
 
     @Override
@@ -33,14 +35,13 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
         g.setColor(new Color(246, 236, 236));
         /* tamaño del fondo*/
         g.fillRect(0, 0, getWidth(), getHeight());
-
-        /* pintando el circulo*/
-        g.setColor(color);
-        g.fillOval(coordenadaX, coordenadaY, 30, 30);
-        
-        g.setColor(color);
-        g.fillOval(coordenadaX+50, coordenadaY+50, 30, 30);
-        
+        /* pintando los objetos */
+        System.out.println("tamaño arreglo: " + arrayCirculo.size());
+        for (int i = 0; i < arrayCirculo.size(); i++) {
+            arrayCirculo.get(i).setGraphics(g);
+            g.setColor(arrayCirculo.get(i).getColor());
+            g.fillOval(arrayCirculo.get(i).getCordenadaX() + 30 , arrayCirculo.get(i).getCordenadaY() + 10 * i, 30, 30);
+        }
         System.out.println("AAA");
     }
 
@@ -64,17 +65,18 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
 
     @Override
     public void run() {
-        
+
         while (true) {
             try {
 
                 /* objeto circulo*/
-                Thread.sleep(300);
-                color = Color.GRAY;
-                coordenadaX = coordenadaX+20;
-                
+                Thread.sleep(30);
+                    
+                for (int i = 0; i < arrayCirculo.size(); i++) {
+                    arrayCirculo.get(i).setCordenadaX(
+                    arrayCirculo.get(i).getCordenadaX() + 10);
+                }
                 repaint();
-
                 System.out.println("---");
             } catch (InterruptedException ex) {
                 Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);

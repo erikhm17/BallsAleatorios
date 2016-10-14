@@ -16,6 +16,7 @@ public class Ventana extends javax.swing.JFrame {
      */
     public Ventana() {
         initComponents();
+        setSize(1000, 600);
         Lienzo l = new Lienzo(this);
         Thread hilo = new Thread(l);
         l.setVisible(true);
