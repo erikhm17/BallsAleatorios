@@ -41,6 +41,7 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
             arrayCirculo.get(i).setGraphics(g);
             g.setColor(arrayCirculo.get(i).getColor());
             g.fillOval(arrayCirculo.get(i).getCordenadaX() + 30 , arrayCirculo.get(i).getCordenadaY() + 10 * i, 30, 30);
+            
         }
         System.out.println("AAA");
     }

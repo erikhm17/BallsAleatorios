@@ -89,12 +89,18 @@ public final class Circulo extends Thread {
     @Override
     public void run() {
         while (true) {
+            System.err.println(getPanel().getWidth());
             try {
-                Circulo.sleep(1000);
-                if (coordenadaX >= 900) {
+                while (coordenadaX < getPanel().getWidth() - 100) {
                     coordenadaX = coordenadaX - 10;
-                } else {
+                    Circulo.sleep(500);
+                    getPanel().repaint();
+                }
+
+                while (coordenadaX > 10) {
+                    Circulo.sleep(500);
                     coordenadaX = coordenadaX + 10;
+                    getPanel().repaint();
                 }
 
             } catch (InterruptedException ex) {
