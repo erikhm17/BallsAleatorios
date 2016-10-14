@@ -15,30 +15,22 @@ import javax.swing.JPanel;
  *
  * @author Erik
  */
-public class Circulo extends Thread {
+public final class Circulo extends Thread {
 
-    private int radio;
-    private Color color;
-    private int cordenadaX;
-    private int cordenadaY;
+    private Color color = Color.BLUE;
+    /* default*/
+    private int cordenadaX = 10;
+    private int cordenadaY = 10;
     private JPanel panel;
     private Graphics graphics;
 
-    public Circulo(int radio, Color color, int cordenadaX, int cordenadaY, JPanel panel, Graphics graphics) {
-        this.radio = radio;
-        this.color = color;
-        this.cordenadaX = cordenadaX;
-        this.cordenadaY = cordenadaY;
+    public Circulo(JPanel panel, Graphics graphics) {
+
+//        this.cordenadaX = cordenadaX;
+//        this.cordenadaY = cordenadaY;
         this.panel = panel;
         this.graphics = graphics;
-    }
 
-    public int getRadio() {
-        return radio;
-    }
-
-    public void setRadio(int radio) {
-        this.radio = radio;
     }
 
     public Color getColor() {
@@ -47,6 +39,7 @@ public class Circulo extends Thread {
 
     public void setColor(Color color) {
         this.color = color;
+
     }
 
     public int getCordenadaX() {
@@ -55,6 +48,7 @@ public class Circulo extends Thread {
 
     public void setCordenadaX(int cordenadaX) {
         this.cordenadaX = cordenadaX;
+
     }
 
     public int getCordenadaY() {
@@ -63,6 +57,7 @@ public class Circulo extends Thread {
 
     public void setCordenadaY(int cordenadaY) {
         this.cordenadaY = cordenadaY;
+
     }
 
     public JPanel getPanel() {
@@ -82,24 +77,22 @@ public class Circulo extends Thread {
     }
 
     public void repintarCirculo() {
-
         getGraphics().setColor(getColor());
         getGraphics().fillOval(getCordenadaX(),
                 getCordenadaY(),
-                getRadio(),
-                getRadio()
+                20, /* medidas x default*/
+                20
         );
 
-        System.out.println("repintando : " + getCordenadaX() +" color : "+getColor());
-
+        //System.out.println("repintando : " + getCordenadaX() +" color : "+getColor());
     }
 
     @Override
     public void run() {
         for (int i = 0; i < 50; i++) {
             try {
-                this.cordenadaX += 20;
-                Thread.sleep(2000);
+                setColor(Color.ORANGE);
+                Circulo.sleep(2000);
                 repintarCirculo();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);

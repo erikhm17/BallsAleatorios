@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package concurrencecanvas;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -20,34 +13,37 @@ import javax.swing.JPanel;
  */
 public class Lienzo extends javax.swing.JPanel implements Runnable {
 
-    int x = getWidth() / 2;
-    int getWidth = getWidth();
-    Graphics graphics;
-    Circulo c;
-    private Color color;
-    
+    Color color = Color.BLUE;
+    int coordenadaX = 50;
+    int coordenadaY = 50;
+
     public Lienzo(JFrame frame) {
         initComponents();
         this.setSize(new Dimension(
                 frame.getWidth(),
                 frame.getHeight())
         );
-        color = Color.RED;
+        System.out.println("Lienzo solo una vez");
+
     }
 
     @Override
     public void paint(Graphics g) {
-        graphics = g;
         /* color del fondo*/
-        graphics.setColor(new Color(246, 236, 236));
+        g.setColor(new Color(246, 236, 236));
         /* tamaño del fondo*/
-        graphics.fillRect(0, 0, getWidth(), getHeight());
-        c = new Circulo(30, color, 10, 50, this, graphics);
-        c.repintarCirculo();
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        /* pintando el circulo*/
+        g.setColor(color);
+        g.fillOval(coordenadaX, coordenadaY, 30, 30);
         
-        System.out.println("Solo una vez");
+        g.setColor(color);
+        g.fillOval(coordenadaX+50, coordenadaY+50, 30, 30);
+        
+        System.out.println("AAA");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -68,17 +64,20 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                System.out.println("Canvas actualizando");
-                Thread.sleep(2000);
-                color = Color.GREEN;
-                c.repintarCirculo();
-                this.repaint();
-            }
+        while (true) {
+            try {
 
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
+                /* objeto circulo*/
+                Thread.sleep(300);
+                color = Color.GRAY;
+                coordenadaX = coordenadaX+20;
+                
+                repaint();
+
+                System.out.println("---");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
