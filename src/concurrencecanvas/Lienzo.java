@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,56 +18,36 @@ import javax.swing.JPanel;
  *
  * @author Erik
  */
-public class Lienzo extends javax.swing.JPanel {
+public class Lienzo extends javax.swing.JPanel implements Runnable {
 
     int x = getWidth() / 2;
     int getWidth = getWidth();
-
+    Graphics graphics;
+    Circulo c;
+    private Color color;
+    
     public Lienzo(JFrame frame) {
         initComponents();
         this.setSize(new Dimension(
                 frame.getWidth(),
                 frame.getHeight())
         );
-
+        color = Color.RED;
     }
 
     @Override
     public void paint(Graphics g) {
+        graphics = g;
         /* color del fondo*/
-        g.setColor(new Color(246, 236, 236));
+        graphics.setColor(new Color(246, 236, 236));
         /* tamaño del fondo*/
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        Circulo c = new Circulo(30, Color.blue, 10, 50, this,g);
+        graphics.fillRect(0, 0, getWidth(), getHeight());
+        c = new Circulo(30, color, 10, 50, this, graphics);
         c.repintarCirculo();
         
-//        /* poniendo circulos*/
-//        ArrayList<Circulo> circulos = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            Circulo c = new Circulo(10, Color.blue, i * 10, 50, this);
-//            circulos.add(c);
-//        }
-//        for (Circulo c : circulos) {
-//            g.setColor(c.getColor());
-//            g.fillOval(
-//                    c.getCordenadaX(),
-//                    c.getCordenadaY(),
-//                    c.getRadio(),
-//                    c.getRadio()
-//            );
-//        }
-//        
-//        /*repintar un objeto*/
-//        circulos.get(2).setColor(Color.yellow);
-//        g.setColor(circulos.get(2).getColor());
-//        g.fillOval(circulos.get(2).getCordenadaX(),
-//                circulos.get(2).getCordenadaY(),
-//                circulos.get(2).getRadio(),circulos.get(2).getRadio());
-//        
-//        
+        System.out.println("Solo una vez");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,6 +65,22 @@ public class Lienzo extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                System.out.println("Canvas actualizando");
+                Thread.sleep(2000);
+                color = Color.GREEN;
+                c.repintarCirculo();
+                this.repaint();
+            }
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

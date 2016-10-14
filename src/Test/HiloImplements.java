@@ -12,15 +12,22 @@ import java.util.logging.Logger;
  *
  * @author Erik
  */
-public class Main {
-    public static void main(String[] args) {
+public class HiloImplements implements Runnable {
+
+    public HiloImplements() {
+        super();
+    }
+
+    @Override
+    public void run() {
         try {
-            Thread hilo = new Thread(new HiloImplements());
-            hilo.start();
-            hilo.join();
-            System.out.println("holiiii");
+            while (true) {
+                System.out.println("Hola mundo");
+                Thread.sleep(1000);
+            }
         } catch (InterruptedException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HiloImplements.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

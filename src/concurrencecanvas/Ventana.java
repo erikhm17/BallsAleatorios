@@ -19,9 +19,11 @@ public class Ventana extends javax.swing.JFrame {
     public Ventana() {
         initComponents();
         Lienzo l = new Lienzo(this);
-        l.repaint();
+        Thread hilo = new Thread(l);
         l.setVisible(true);
         add(l);
+        hilo.start();
+        
     }
 
     @SuppressWarnings("unchecked")

@@ -82,15 +82,15 @@ public class Circulo extends Thread {
     }
 
     public void repintarCirculo() {
-        
+
         getGraphics().setColor(getColor());
         getGraphics().fillOval(getCordenadaX(),
                 getCordenadaY(),
                 getRadio(),
                 getRadio()
         );
-        
-        System.out.println("repintando : "+getCordenadaX());
+
+        System.out.println("repintando : " + getCordenadaX() +" color : "+getColor());
 
     }
 
@@ -98,11 +98,9 @@ public class Circulo extends Thread {
     public void run() {
         for (int i = 0; i < 50; i++) {
             try {
-                this.cordenadaX +=20;
+                this.cordenadaX += 20;
                 Thread.sleep(2000);
                 repintarCirculo();
-                getPanel().repaint();
-                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
             }
