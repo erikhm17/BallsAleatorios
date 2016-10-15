@@ -91,18 +91,22 @@ public final class Circulo extends Thread {
         while (true) {
             System.err.println(getPanel().getWidth());
             try {
-                while (coordenadaX < getPanel().getWidth() - 100) {
-                    coordenadaX = coordenadaX - 10;
-                    Circulo.sleep(500);
+                
+                System.err.println(getPanel().getWidth());
+                System.err.println(getCordenadaX());
+                System.err.println(getCordenadaY());
+                while (coordenadaX < 900 || coordenadaY < 500) {
+                    coordenadaX = (int) (coordenadaX + Math.random() * 10);
+                    coordenadaY = (int) (coordenadaY + Math.random() * 10);
+                    Circulo.sleep(100);
                     getPanel().repaint();
                 }
-
-                while (coordenadaX > 10) {
-                    Circulo.sleep(500);
-                    coordenadaX = coordenadaX + 10;
+                while (coordenadaX > 9 || coordenadaY > 9) {
+                    coordenadaX = (int) (coordenadaX - Math.random() * 10);
+                    coordenadaY = (int) (coordenadaY - Math.random() * 10);
+                    Circulo.sleep(100);
                     getPanel().repaint();
                 }
-
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
             }

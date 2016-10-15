@@ -25,7 +25,7 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
         System.out.println("Lienzo solo una vez");
         /* llenando los objetos a una arreglo de circulos*/
         for (int i = 0; i < 1; i++) {
-            arrayCirculo.add(new Circulo(this, null,i*40,i*40));
+            arrayCirculo.add(new Circulo(this, null, 10, 10));
         }
     }
 
@@ -40,8 +40,7 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
         for (int i = 0; i < arrayCirculo.size(); i++) {
             arrayCirculo.get(i).setGraphics(g);
             g.setColor(arrayCirculo.get(i).getColor());
-            g.fillOval(arrayCirculo.get(i).getCordenadaX() + 30 , arrayCirculo.get(i).getCordenadaY() + 10 * i, 30, 30);
-            
+            g.fillOval(arrayCirculo.get(i).getCordenadaX() + 30, arrayCirculo.get(i).getCordenadaY() + 10 * i, 30, 30);
         }
         System.out.println("AAA");
     }
@@ -67,22 +66,30 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
     @Override
     public void run() {
 
-        while (true) {
-            try {
+//        while (true) {
+//            try {
+//
+//                /* objeto circulo*/
+//                Thread.sleep(30);
+//
+//                for (int i = 0; i < arrayCirculo.size(); i++) {
+//                    arrayCirculo.get(i).setCordenadaX(
+//                            arrayCirculo.get(i).getCordenadaX() + 10);
+//                }
+//                repaint();
+//                System.out.println("---");
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+    }
 
-                /* objeto circulo*/
-                Thread.sleep(30);
-                    
-                for (int i = 0; i < arrayCirculo.size(); i++) {
-                    arrayCirculo.get(i).setCordenadaX(
-                    arrayCirculo.get(i).getCordenadaX() + 10);
-                }
-                repaint();
-                System.out.println("---");
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    public ArrayList<Circulo> getArrayCirculo() {
+        return arrayCirculo;
+    }
+
+    public void setArrayCirculo(ArrayList<Circulo> arrayCirculo) {
+        this.arrayCirculo = arrayCirculo;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

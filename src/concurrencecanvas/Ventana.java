@@ -17,12 +17,8 @@ public class Ventana extends javax.swing.JFrame {
     public Ventana() {
         initComponents();
         setSize(1000, 600);
-        Lienzo l = new Lienzo(this);
-        Thread hilo = new Thread(l);
-        l.setVisible(true);
-        add(l);
-        hilo.start();
-        
+
+        iniciarCirculos();
     }
 
     @SuppressWarnings("unchecked")
@@ -136,5 +132,16 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnPausar;
     // End of variables declaration//GEN-END:variables
+
+    private void iniciarCirculos() {
+        Lienzo l = new Lienzo(this);
+        Thread hilo = new Thread(l);
+        l.setVisible(true);
+        add(l);
+        for (int i = 0; i < l.getArrayCirculo().size(); i++) {
+            l.getArrayCirculo().get(i).start();
+        }
+        hilo.start();
+    }
 
 }
