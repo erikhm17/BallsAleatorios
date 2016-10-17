@@ -5,6 +5,9 @@
  */
 package concurrencecanvas;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Erik
@@ -16,7 +19,7 @@ public class Ventana extends javax.swing.JFrame {
      */
     public Ventana() {
         initComponents();
-        setSize(1000, 600);
+        setSize(1100, 700);
 
         iniciarCirculos();
     }
@@ -133,15 +136,18 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton btnPausar;
     // End of variables declaration//GEN-END:variables
 
+    public static int contador = 0;
+
     private void iniciarCirculos() {
+
         Lienzo l = new Lienzo(this);
-        Thread hilo = new Thread(l);
         l.setVisible(true);
         add(l);
         for (int i = 0; i < l.getArrayCirculo().size(); i++) {
             l.getArrayCirculo().get(i).start();
         }
-        hilo.start();
+        
+        System.out.println("Contador : "+contador);
     }
 
 }

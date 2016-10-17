@@ -4,29 +4,29 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
  *
  * @author Erik
  */
-public class Lienzo extends javax.swing.JPanel implements Runnable {
+public class Lienzo extends javax.swing.JPanel {
 
     ArrayList<Circulo> arrayCirculo = new ArrayList<>();
 
     public Lienzo(JFrame frame) {
         initComponents();
         this.setSize(new Dimension(
-                1000,
-                600)
+                1100,
+                700)
         );
         System.out.println("Lienzo solo una vez");
         /* llenando los objetos a una arreglo de circulos*/
-        for (int i = 0; i < 1; i++) {
-            arrayCirculo.add(new Circulo(this, null, 10, 10));
+        Semaforo mutex = new Semaforo(1);
+        for (int i = 0; i < 30; i++) {
+            arrayCirculo.add(new Circulo(i, mutex, this, null, 10, 10,(i+1*10)));
         }
+        
     }
 
     @Override
@@ -36,13 +36,25 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
         /* tamaño del fondo*/
         g.fillRect(0, 0, getWidth(), getHeight());
         /* pintando los objetos */
-        System.out.println("tamaño arreglo: " + arrayCirculo.size());
+        // System.out.println("tamaño arreglo: " + arrayCirculo.size());
         for (int i = 0; i < arrayCirculo.size(); i++) {
             arrayCirculo.get(i).setGraphics(g);
             g.setColor(arrayCirculo.get(i).getColor());
-            g.fillOval(arrayCirculo.get(i).getCordenadaX() + 30, arrayCirculo.get(i).getCordenadaY() + 10 * i, 30, 30);
+
+            g.fillOval(arrayCirculo.get(i).getCordenadaX(),
+                    arrayCirculo.get(i).getCordenadaY(),
+                    30,
+                    30
+            );
         }
-        System.out.println("AAA");
+        /* graficando el marco*/
+        g.fillRect(0, 0, 2, 600);
+        g.fillRect(0, 600, 1000, 2);
+        g.fillRect(1000,0, 2, 600);
+        g.fillRect(0,0, 1000, 2);
+        
+        g.fillRect(500, 400, 10, 140);
+        //System.out.println("AAA");
     }
 
     @SuppressWarnings("unchecked")
@@ -62,27 +74,6 @@ public class Lienzo extends javax.swing.JPanel implements Runnable {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    @Override
-    public void run() {
-
-//        while (true) {
-//            try {
-//
-//                /* objeto circulo*/
-//                Thread.sleep(30);
-//
-//                for (int i = 0; i < arrayCirculo.size(); i++) {
-//                    arrayCirculo.get(i).setCordenadaX(
-//                            arrayCirculo.get(i).getCordenadaX() + 10);
-//                }
-//                repaint();
-//                System.out.println("---");
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(Lienzo.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-    }
 
     public ArrayList<Circulo> getArrayCirculo() {
         return arrayCirculo;
