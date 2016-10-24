@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 public class Lienzo extends javax.swing.JPanel {
 
     ArrayList<Circulo> arrayCirculo = new ArrayList<>();
-
+    
     public Lienzo(JFrame frame) {
         initComponents();
         this.setSize(new Dimension(
@@ -22,11 +22,52 @@ public class Lienzo extends javax.swing.JPanel {
         );
         System.out.println("Lienzo solo una vez");
         /* llenando los objetos a una arreglo de circulos*/
-        Semaforo mutex = new Semaforo(1);
-        for (int i = 0; i < 30; i++) {
-            arrayCirculo.add(new Circulo(i, mutex, this, null, 10, 10,(i+1*10)));
-        }
+        Semaforo mutex = new Semaforo(1); /* con uno para que el wait consuma, y lo redusca a 0*/
+        ArrayList<Color> colores = new ArrayList<>();
+        colores.add(Color.BLACK);
+        colores.add(Color.BLUE);
+        colores.add(Color.YELLOW);
+        colores.add(Color.CYAN);
+        colores.add(Color.DARK_GRAY);
+        colores.add(Color.GREEN);
+        colores.add(Color.LIGHT_GRAY);
+        colores.add(Color.ORANGE);
+        colores.add(Color.RED);
         
+        int bolaPorEsquina = 10;
+        /* arriba derecha*/
+        for (int i = 0; i < bolaPorEsquina; i++) {
+            Color colorAleatorio = colores.get((int) (Math.random() * colores.size()));
+            arrayCirculo.add(new Circulo(
+                    i,
+                    mutex,
+                    this,
+                    null,
+                    50,50*i,3,1,1,colorAleatorio)
+            );
+        }
+        /*arriba izquierda*/
+        for (int i = 0; i < bolaPorEsquina; i++) {
+            Color colorAleatorio = colores.get((int) (Math.random() * colores.size()));
+            arrayCirculo.add(new Circulo(
+                    i,
+                    mutex,
+                    this,
+                    null,
+                    1000-i*50,0,3,-1,1,colorAleatorio)
+            );
+        }
+        /* abajo derecha*/
+        for (int i = 0; i < bolaPorEsquina; i++) {
+            Color colorAleatorio = colores.get((int) (Math.random() * colores.size()));
+            arrayCirculo.add(new Circulo(
+                    i,
+                    mutex,
+                    this,
+                    null,
+                    1000,600+i*50,3,-1,-1,colorAleatorio)
+            );
+        }
     }
 
     @Override
@@ -46,14 +87,20 @@ public class Lienzo extends javax.swing.JPanel {
                     30,
                     30
             );
+            
         }
         /* graficando el marco*/
-        g.fillRect(0, 0, 2, 600);
-        g.fillRect(0, 600, 1000, 2);
-        g.fillRect(1000,0, 2, 600);
-        g.fillRect(0,0, 1000, 2);
+//        g.fillRect(0, 0, 2, 600);
+//        g.fillRect(0, 600, 1000, 2);
+//        g.fillRect(1000, 0, 2, 600);
+//        g.fillRect(0, 0, 1000, 2);
+
+        g.setColor(Color.BLACK);
+        g.fillRect(400, 450, 10, 200);
+        g.fillRect(610, 450, 10, 200);
+        g.fillRect(400, 650, 220, 10);
         
-        g.fillRect(500, 400, 10, 140);
+
         //System.out.println("AAA");
     }
 

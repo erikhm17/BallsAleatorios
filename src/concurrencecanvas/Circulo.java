@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  */
 public final class Circulo extends Thread {
 
-    private Color color = Color.BLUE;
+    private Color color;
     /* default*/
     private int coordenadaX;
     private int coordenadaY;
@@ -28,13 +28,21 @@ public final class Circulo extends Thread {
     /* delay*/
     private int delay;
 
+    /* vectores unitarios*/
+    private int unitX;
+    private int unitY;
+
     public Circulo(int index,
             Semaforo semaforo,
             JPanel panel,
             Graphics graphics,
             int coordenadaX,
             int coordenadaY,
-            int delay) {
+            int delay,
+            int unitX,
+            int unitY,
+            Color color
+    ) {
         this.panel = panel;
         this.graphics = graphics;
         this.coordenadaX = coordenadaX;
@@ -42,6 +50,9 @@ public final class Circulo extends Thread {
         this.index = index;
         this.semaforo = semaforo;
         this.delay = delay;
+        this.unitX = unitX;
+        this.unitY = unitY;
+        this.color = color;
         System.out.println("solo una vez");
     }
 
@@ -119,157 +130,172 @@ public final class Circulo extends Thread {
                 10, /* medidas x default*/
                 10
         );
-        
+
         //System.out.println("repintando : " + getCordenadaX() +" color : "+getColor());
     }
-    /* banderas */
- /* si choca arriba*/
-    private boolean flagtop = false;
-    /* si choca abajo*/
-    private boolean flagBottom = false;
-    /* si choca a la izquierda*/
-    private boolean flagLeft = false;
-    /* si choca a la derecha*/
-    private boolean flagRight = false;
 
     @Override
     public void run() {
         while (true) {
-//            System.err.println("ancho de la ventana " + getPanel().getWidth());
             try {
-                flagActivate();
-//                System.out.println("Coordenadas : " + coordenadaX + " , " + coordenadaY);
-//                System.out.println("bottom: " + flagBottom + "\n"
-//                        + " left: " + flagLeft + "\n"
-//                        + " right: " + flagRight + "\n"
-//                        + " top: " + flagtop + "\n"
-//                );
-                /* si choca solo arriba */
-                while (!flagBottom && !flagLeft && !flagRight && flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX + Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY + Math.random() * 10);
-                    Circulo.sleep(delay);
-                    getPanel().repaint();
-                }
-                /* si choca arriba y a la izquierda (esquina)*/
-                while (!flagBottom && flagLeft && !flagRight && flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX + Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY + Math.random() * 10);
-                    Circulo.sleep(delay);
-                    getPanel().repaint();
-                }
-                /* si choca arriba y a la derecha (esquina)*/
-                while (!flagBottom && !flagLeft && flagRight && flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX + Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY + Math.random() * 10);
-                    Circulo.sleep(delay);
-                    getPanel().repaint();
-                }
-                /* solo chocó abajo */
-                while (flagBottom && !flagLeft && !flagRight && !flagtop) {
+                while (unitX > 0 && unitY > 0) {
 
-//                    if (flagBottom) {
-//                        //System.out.println("#### 1 : " + getIndex());
-//                        getSemaforo().Wait();
-//                        Ventana.contador = Ventana.contador + 1;
-//                        System.out.println("el circulo " + getIndex()
-//                                + " contó : " + Ventana.contador
-//                                + " Numero de pelota : " + Ventana.contador
-//                                + " indice : " + getIndex());
-//                        getSemaforo().Signal();
-//                        //System.out.println("#### 2 : " + getIndex());
-//                        return;
-//                    }
+                    coordenadaX = coordenadaX + 1;
+                    coordenadaY = coordenadaY + 1;
+                    Circulo.sleep(delay);
+                    getPanel().repaint();
+                    if (coordenadaY == 600 && coordenadaX != 1000 && unitX > 0) {
+                        unitX = 1;
+                        unitY = -1;
+                    } else if (coordenadaX == 1000 && coordenadaY != 600 && unitY > 0) {
+                        unitX = -1;
+                        unitY = 1;
 
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX + Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY - Math.random() * 10);
-                    Circulo.sleep(delay);
-                    getPanel().repaint();
+                    } else if (coordenadaX == 1000 && coordenadaY == 600) {
+                        unitX = -1;
+                        unitY = -1;
+                    } else if (ingresoAlContenedor()) {
+                        contar();
+                        return;
+                    }
+
+                    /* caso especial */
+                    chocaContenedor();
+
                 }
-                /* solo chocó abajo izquierda (esquina)*/
-                while (flagBottom && flagLeft && !flagRight && !flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX + Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY - Math.random() * 10);
+                while (unitX > 0 && unitY < 0) {
+                    coordenadaX = coordenadaX + 1;
+                    coordenadaY = coordenadaY - 1;
                     Circulo.sleep(delay);
                     getPanel().repaint();
+                    if (coordenadaY == 0 && coordenadaX != 1000 && unitX > 0) {
+                        unitX = 1;
+                        unitY = 1;
+                    } else if (coordenadaY != 0 && coordenadaX == 1000 && unitY < 0) {
+                        unitX = -1;
+                        unitY = -1;
+                    } else if (coordenadaX == 1000 && coordenadaY == 0) {
+                        unitX = -1;
+                        unitY = 1;
+                    }
+                    if (ingresoAlContenedor()) {
+                        contar();
+                        return;
+                    }
+                    chocaContenedor();
+
                 }
-                /* solo chocó abajo derecha (esquina)*/
-                while (flagBottom && !flagLeft && flagRight && !flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX - Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY - Math.random() * 10);
+                while (unitX < 0 && unitY < 0) {
+                    coordenadaX = coordenadaX - 1;
+                    coordenadaY = coordenadaY - 1;
                     Circulo.sleep(delay);
                     getPanel().repaint();
+                    if (coordenadaY == 0 && coordenadaX != 0 && unitX < 0) {
+                        unitX = -1;
+                        unitY = 1;
+                    } else if (coordenadaX == 0 && coordenadaY != 0 && unitY < 0) {
+                        unitX = 1;
+                        unitY = -1;
+                    } else if (coordenadaX == 0 && coordenadaY == 0) {
+                        unitX = 1;
+                        unitY = 1;
+                    }
+                    if (ingresoAlContenedor()) {
+                        contar();
+                        return;
+                    }
+                    chocaContenedor();
+
                 }
-                /* chocó a la derecha*/
-                while (!flagBottom && !flagLeft && flagRight && !flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX - Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY - Math.random() * 10);
+                while (unitX < 0 && unitY > 0) {
+                    coordenadaX = coordenadaX - 1;
+                    coordenadaY = coordenadaY + 1;
                     Circulo.sleep(delay);
                     getPanel().repaint();
-                }
-                /* chocó arriba y a  la derecha*/
-                while (!flagBottom && !flagLeft && flagRight && flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX - Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY + Math.random() * 10);
-                    Circulo.sleep(delay);
-                    getPanel().repaint();
-                }
-                /* chocó a la izquierda */
-                while (!flagBottom && flagLeft && !flagRight && !flagtop) {
-                    flagActivate();
-                    coordenadaX = (int) (coordenadaX - Math.random() * 10);
-                    coordenadaY = (int) (coordenadaY + Math.random() * 10);
-                    Circulo.sleep(delay);
-                    getPanel().repaint();
+                    if (coordenadaY != 600 && coordenadaX == 0 && unitY > 0) {
+                        unitX = 1;
+                        unitY = 1;
+
+                    } else if (coordenadaY == 600 && coordenadaX == 0) {
+                        unitX = 1;
+                        unitY = -1;
+
+                    } else if (coordenadaX != 1000 && coordenadaY == 600 && unitX < 0) {
+                        unitX = -1;
+                        unitY = -1;
+
+                    }
+                    if (ingresoAlContenedor()) {
+                        contar();
+                        return;
+                    }
+                    chocaContenedor();
+
                 }
 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
             }
-            refhresh(false);
+
         }
     }
-
-    private synchronized void refhresh(boolean flag) {
-        flagtop = flag;
-        flagBottom = flag;
-        flagLeft = flag;
-        flagRight = flag;
-        System.out.println("Refrescado");
+    private int limiteX = 380;
+    private int limiteY = 410;
+    private void chocaContenedor() {
+        /* si choca en las paredes del contenedor , debe rebotar*/
+        if (coordenadaX == limiteX
+                && coordenadaY >= limiteY
+                && unitY > 0) {
+            unitX = -1;
+            unitY = 1;
+        }
+        if (coordenadaX == limiteX
+                && coordenadaY >= limiteY
+                && unitY < 0) {
+            unitX = -1;
+            unitY = -1;
+        }
+        if (coordenadaX == 600
+                && coordenadaY >= limiteY
+                && unitY > 0) {
+            unitX = 1;
+            unitY = 1;
+        }
+        if (coordenadaX == 600
+                && coordenadaY >= limiteY
+                && unitY < 0) {
+            unitX = 1;
+            unitY = -1;
+        }
 
     }
 
-    /* si el objeto llegó al limite Y*/
-    public synchronized void flagActivate() {
-        /* el que valida que banderas se activan*/
-
- /* si choca abajo*/
-        if (coordenadaY >= 500 && coordenadaY <= 600) {
-            flagBottom = true;
-
+    public boolean ingresoAlContenedor() {
+        if (coordenadaX > limiteX && coordenadaX < (limiteX + 213)
+                && coordenadaY > 450) {
+            System.err.println("ingresó");
+            return true;
         }
-        /* si choca arriba*/
-        if (coordenadaY <= 50 && coordenadaY >= 0) {
-            flagtop = true;
+        return false;
+    }
 
+    public void contar() {
+        if (ingresoAlContenedor()) {
+            try {
+
+                getSemaforo().Wait();
+                Ventana.contador = Ventana.contador + 1;
+                System.out.println("el circulo " + getIndex()
+                        + " contó : " + Ventana.contador
+                        + " Numero de pelota : " + Ventana.contador
+                        + " indice : " + getIndex());
+                Ventana.lblIngresaron.setText(String.valueOf(Ventana.contador));
+                getSemaforo().Signal();
+
+                return;
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        /* si choca en la derecha */
-        if (coordenadaX >= 900 && coordenadaX <= 1000) {
-            flagRight = true;
-
-        }
-        if (coordenadaX <= 50 && coordenadaX >= 0) {
-            flagLeft = true;
-
-        }
-
     }
 }
