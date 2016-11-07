@@ -291,7 +291,9 @@ public final class Circulo extends Thread {
                         + " indice : " + getIndex());
                 Ventana.lblIngresaron.setText(String.valueOf(Ventana.contador));
                 getSemaforo().Signal();
-
+                /* para hacer desaparecer las pelotitas*/
+                coordenadaX = 10000;
+                coordenadaY = 10000;
                 return;
             } catch (InterruptedException ex) {
                 Logger.getLogger(Circulo.class.getName()).log(Level.SEVERE, null, ex);
